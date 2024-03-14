@@ -106,59 +106,46 @@ class Ui_MainWindow(object):
     def handler_addSubject(self):
         sub_name = self.subjectName.toPlainText()
         new_rights = self.subjectRights.toPlainText()
+        self.subjectName.clear()
+        self.subjectRights.clear()
         with open("matrix2.txt", "r+") as m:
-            #print(all_names)
             content = m.readline().split("|")
             users = [i.split("_")[0] for i in content if i != content[0]]
             print(users)
             if sub_name in users:
-                pass
-                # all_lines[all_names.index(sub_name)] = sub_name + " " + new_rights + "\n"
-                # cont = [f_line] + all_lines
-                # #print([f_line], all_lines)
-                # print(cont)
-                # m.seek(0)
-                # m.writelines(cont)
-                # self.config_table()
+                content[users.index(sub_name)+1] = sub_name + "_" + new_rights
             else:
-                pass
-                ## self.tableWidget.insertRow(self.tableWidget.rowCount()+1)
-                # all_lines.append(sub_name + " " + new_rights + "\n")
-                # cont = [f_line] + all_lines
-                # m.seek(0)
-                # m.writelines(cont)
-                # self.config_table()
+                content.append(sub_name + "_" + new_rights)
+        print(f"add_Subject: Writing {content} to file")
+        with open("matrix2.txt", "w+") as m:
+            content_towrite = "|".join(content)
+            print(f"add_Object: Writing {content_towrite} to file")
+            m.writelines(content_towrite)
+            m.close()
+        self.config_table()
 
     def handler_deleteSubject(self):
         sub_name = self.subjectName.toPlainText()
         new_rights = self.subjectRights.toPlainText()
-        with open("matrix.txt", "r+") as m:
-            f_line = m.readline()
-            all_lines = m.readlines()
-            all_names = [x.split(" ")[0] for x in all_lines]
-            #print(all_names)
-            if sub_name in all_names:
-                f_copy = []
-                for line in all_lines:
-                    if sub_name not in line:
-                        f_copy.append(line)
-                all_lines[all_names.index(sub_name)] = sub_name + " " + new_rights + "\n"
-                cont = [f_line] + all_lines
-                #print([f_line], all_lines)
-                print(cont)
-                m.seek(0)
-                m.writelines(cont)
-                self.config_table()
+        self.subjectName.clear()
+        self.subjectRights.clear()
+        with open("matrix2.txt", "r+") as m:
+            content = m.readline().split("|")
+            users = [i.split("_")[0] for i in content if i != content[0]]
+            if sub_name in users:
+                print(f"Удаляем {content[users.index(sub_name)+1]}")
+                content.pop(users.index(sub_name)+1)
             else:
-                #self.tableWidget.insertRow(self.tableWidget.rowCount()+1)
-                all_lines.append(sub_name + " " + new_rights + "\n")
-                cont = [f_line] + all_lines
-                m.seek(0)
-                m.writelines(cont)
-                self.config_table()
+                print(f"delete_Subject: User {sub_name} doesn't exist")
+        with open("matrix2.txt", "w+") as m:
+            content_towrite = "|".join(content)
+            print(f"delete_Subject: Writing {content} to file")
+            m.writelines(content_towrite)
+            m.close()
+        self.config_table()
     def config_table(self):
         with open("matrix2.txt", "r+") as m:
-            print("opened file")
+            print("Opened file")
             content = m.readline().split("|")
             amount_files = len(content[0])
             amount_subjects = len(content)-1
@@ -169,7 +156,9 @@ class Ui_MainWindow(object):
             self.tableWidget.setHorizontalHeaderLabels(filenames)
             self.tableWidget.setVerticalHeaderLabels(users)
             print("Content of matrix", content)
-            print(f"Files: {filenames}")
+            for row in range(self.tableWidget.rowCount()):
+                for col in range(self.tableWidget.colorCount()):
+                    self.tableWidget.setItem(row,col,QTableWidgetItem(""))
             for i in range(1, len(content)):
                 user, user_rights = content[i].split("_")
                 for sym in user_rights:
@@ -191,7 +180,6 @@ class Ui_MainWindow(object):
 
 if __name__ == "__main__":
     import sys
-
     app = QtWidgets.QApplication(sys.argv)
     main_window = QtWidgets.QMainWindow()
     ui = Ui_MainWindow()
