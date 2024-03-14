@@ -1,9 +1,10 @@
 from PyQt5.QtWidgets import QTableWidgetItem
 
-from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5 import *
 
 
 class Ui_MainWindow(object):
+    path = "config/matrix2.txt"
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(1069, 700)
@@ -95,14 +96,23 @@ class Ui_MainWindow(object):
         self.deleteObject.clicked.connect(self.handler_deleteObject)
         self.addSubject.clicked.connect(self.handler_addSubject)
         self.deleteSubject.clicked.connect(self.handler_deleteSubject)
+        self.SaveAs.clicked.connect(self.save_handler)
         self.config_table()
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
+    def save_handler(self):
+        filename = self.textEdit.toPlainText()
+        self.textEdit.clear()
+        with open(self.path, 'r') as firstfile, open(f"config/{filename}", 'w') as secondfile:
+            for line in firstfile:
+                secondfile.write(line)
+    def load_handler(self):
+        self.listWidget.
     def handler_addObject(self):
         obj_name = self.objectInput.toPlainText()
         self.objectInput.clear()
-        with open("matrix2.txt", "r+") as m:
+        with open(self.path, "r+") as m:
             content = m.readline().split("|")
             if obj_name not in content[0]:
                 content[0] = content[0] + obj_name
@@ -118,12 +128,12 @@ class Ui_MainWindow(object):
     def handler_deleteObject(self):
         obj_name = self.objectInput.toPlainText()
         self.objectInput.clear()
-        with open("matrix2.txt", "r+") as m:
+        with open(self.path, "r+") as m:
             content = m.readline().split("|")
             if obj_name in content[0]:
                 content[0] = content[0].replace(obj_name, "")
             m.close()
-        with open("matrix2.txt", "w+") as m:
+        with open(self.path, "w+") as m:
             content_towrite = "|".join(content)
             print(f"add_Object: Writing {content_towrite} to file")
             m.writelines(content_towrite)
@@ -135,7 +145,7 @@ class Ui_MainWindow(object):
         new_rights = self.subjectRights.toPlainText()
         self.subjectName.clear()
         self.subjectRights.clear()
-        with open("matrix2.txt", "r+") as m:
+        with open(self.path, "r+") as m:
             content = m.readline().split("|")
             users = [i.split("_")[0] for i in content if i != content[0]]
             print(users)
@@ -144,7 +154,7 @@ class Ui_MainWindow(object):
             else:
                 content.append(sub_name + "_" + new_rights)
         print(f"add_Subject: Writing {content} to file")
-        with open("matrix2.txt", "w+") as m:
+        with open(self.path, "w+") as m:
             content_towrite = "|".join(content)
             print(f"add_Object: Writing {content_towrite} to file")
             m.writelines(content_towrite)
@@ -156,7 +166,7 @@ class Ui_MainWindow(object):
         new_rights = self.subjectRights.toPlainText()
         self.subjectName.clear()
         self.subjectRights.clear()
-        with open("matrix2.txt", "r+") as m:
+        with open(self.path, "r+") as m:
             content = m.readline().split("|")
             users = [i.split("_")[0] for i in content if i != content[0]]
             if sub_name in users:
@@ -164,14 +174,14 @@ class Ui_MainWindow(object):
                 content.pop(users.index(sub_name)+1)
             else:
                 print(f"delete_Subject: User {sub_name} doesn't exist")
-        with open("matrix2.txt", "w+") as m:
+        with open(self.path, "w+") as m:
             content_towrite = "|".join(content)
             print(f"delete_Subject: Writing {content} to file")
             m.writelines(content_towrite)
             m.close()
         self.config_table()
     def config_table(self):
-        with open("matrix2.txt", "r+") as m:
+        with open(self.path, "r+") as m:
             print("Opened file")
             content = m.readline().split("|")
             amount_files = len(content[0])

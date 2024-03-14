@@ -57,7 +57,7 @@ class Ui_MainWindow(object):
     def check(self):
         user = self.userName.toPlainText()
         asked = self.askedRights.toPlainText()
-        with open("matrix2.txt", "r") as m:
+        with open(f"config/matrix2.txt", "r") as m:
             content = m.readline().split("|")
             users = [i.split("_")[0] for i in content if i != content[0]]
             print(users)
