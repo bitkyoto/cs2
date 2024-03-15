@@ -1,5 +1,3 @@
-
-
 from PyQt5 import QtCore, QtGui, QtWidgets
 
 
@@ -62,7 +60,7 @@ class Ui_MainWindow(object):
             users = [i.split("_")[0] for i in content if i != content[0]]
             print(users)
             if user in users:
-                final = "".join([sym for sym in asked if sym in content[users.index(user)+1]])
+                final = "".join([sym for sym in asked if (sym in content[users.index(user)+1] and sym in content[0])])
                 self.realRights.setText(final)
             else:
                 self.realRights.setText("User not found!")
