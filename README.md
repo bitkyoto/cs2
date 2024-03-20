@@ -1,4 +1,4 @@
-Программа администратора - admin6.py и admin5.ui
+Программа администратора - 3_1admin.py и 3_admin.ui
 Программа пользователя - user.py и user.ui
 Папка config - для конфиг файлов матриц
-![O6sAXoaotpY](https://github.com/bitkyoto/cs2/assets/74539390/c795220f-14eb-40e4-a0cc-b1e93e7a641e)
+![images](https://github.com/bitkyoto/cs2/assets/74539390/1a674a0b-f9be-4cd9-8dab-6732035ebe61)
