@@ -2,4 +2,5 @@
 Программа пользователя - user.py и user.ui
 Папка config - для конфиг файлов матриц
 
-![images](https://github.com/bitkyoto/cs2/assets/74539390/e65cfa12-1469-4dfd-98a8-99ff999e8c1e)
+
+![neko](https://github.com/bitkyoto/cs2/assets/74539390/dde4df16-642d-4445-9243-5f53f789c1e4)
