@@ -30,69 +30,13 @@ class Ui_MainWindow(object):
         self.verticalLayout = QtWidgets.QVBoxLayout(self.verticalLayoutWidget)
         self.verticalLayout.setContentsMargins(0, 0, 0, 0)
         self.verticalLayout.setObjectName("verticalLayout")
-        self.label_3 = QtWidgets.QLabel(self.verticalLayoutWidget)
-        self.label_3.setAlignment(QtCore.Qt.AlignCenter)
-        self.label_3.setObjectName("label_3")
-        self.verticalLayout.addWidget(self.label_3)
-        self.objectInput = QtWidgets.QTextEdit(self.verticalLayoutWidget)
-        self.objectInput.setObjectName("objectInput")
-        self.verticalLayout.addWidget(self.objectInput)
-        self.addObject = QtWidgets.QPushButton(self.verticalLayoutWidget)
-        self.addObject.setObjectName("addObject")
-        self.verticalLayout.addWidget(self.addObject)
-        self.deleteObject = QtWidgets.QPushButton(self.verticalLayoutWidget)
-        self.deleteObject.setObjectName("deleteObject")
-        self.verticalLayout.addWidget(self.deleteObject)
+
         self.verticalLayoutWidget_2 = QtWidgets.QWidget(self.centralwidget)
         self.verticalLayoutWidget_2.setGeometry(QtCore.QRect(270, 350, 171, 299))
         self.verticalLayoutWidget_2.setObjectName("verticalLayoutWidget_2")
         self.verticalLayout_2 = QtWidgets.QVBoxLayout(self.verticalLayoutWidget_2)
         self.verticalLayout_2.setContentsMargins(0, 0, 0, 0)
         self.verticalLayout_2.setObjectName("verticalLayout_2")
-        self.label_4 = QtWidgets.QLabel(self.verticalLayoutWidget_2)
-        self.label_4.setAlignment(QtCore.Qt.AlignCenter)
-        self.label_4.setObjectName("label_4")
-        self.verticalLayout_2.addWidget(self.label_4)
-        self.subjectName = QtWidgets.QTextEdit(self.verticalLayoutWidget_2)
-        self.subjectName.setObjectName("subjectName")
-        self.verticalLayout_2.addWidget(self.subjectName)
-        self.label_5 = QtWidgets.QLabel(self.verticalLayoutWidget_2)
-        self.label_5.setAlignment(QtCore.Qt.AlignCenter)
-        self.label_5.setObjectName("label_5")
-        self.verticalLayout_2.addWidget(self.label_5)
-        self.subjectRights = QtWidgets.QTextEdit(self.verticalLayoutWidget_2)
-        self.subjectRights.setObjectName("subjectRights")
-        self.verticalLayout_2.addWidget(self.subjectRights)
-        self.addSubject = QtWidgets.QPushButton(self.verticalLayoutWidget_2)
-        self.addSubject.setObjectName("addSubject")
-        self.verticalLayout_2.addWidget(self.addSubject)
-        self.deleteSubject = QtWidgets.QPushButton(self.verticalLayoutWidget_2)
-        self.deleteSubject.setObjectName("deleteSubject")
-        self.verticalLayout_2.addWidget(self.deleteSubject)
-        self.label = QtWidgets.QLabel(self.centralwidget)
-        self.label.setGeometry(QtCore.QRect(70, 330, 171, 16))
-        self.label.setAlignment(QtCore.Qt.AlignCenter)
-        self.label.setObjectName("label")
-        self.label_2 = QtWidgets.QLabel(self.centralwidget)
-        self.label_2.setGeometry(QtCore.QRect(270, 330, 171, 16))
-        self.label_2.setAlignment(QtCore.Qt.AlignCenter)
-        self.label_2.setObjectName("label_2")
-        self.renameObject = QtWidgets.QTextEdit(self.centralwidget)
-        self.renameObject.setGeometry(QtCore.QRect(480, 370, 151, 87))
-        self.renameObject.setObjectName("renameObject")
-        self.label_7 = QtWidgets.QLabel(self.centralwidget)
-        self.label_7.setGeometry(QtCore.QRect(480, 340, 151, 16))
-        self.label_7.setAlignment(QtCore.Qt.AlignCenter)
-        self.label_7.setObjectName("label_7")
-        self.renameObjectbutton = QtWidgets.QPushButton(self.centralwidget)
-        self.renameObjectbutton.setGeometry(QtCore.QRect(480, 460, 151, 28))
-        self.renameObjectbutton.setObjectName("renameObjectbutton")
-        self.renameSubjectbutton = QtWidgets.QPushButton(self.centralwidget)
-        self.renameSubjectbutton.setGeometry(QtCore.QRect(480, 610, 151, 28))
-        self.renameSubjectbutton.setObjectName("renameSubjectbutton")
-        self.renameSubject = QtWidgets.QTextEdit(self.centralwidget)
-        self.renameSubject.setGeometry(QtCore.QRect(480, 520, 151, 87))
-        self.renameSubject.setObjectName("renameSubject")
         self.label_8 = QtWidgets.QLabel(self.centralwidget)
         self.label_8.setGeometry(QtCore.QRect(480, 500, 151, 16))
         self.label_8.setAlignment(QtCore.Qt.AlignCenter)
@@ -175,12 +119,6 @@ class Ui_MainWindow(object):
         self.statusbar = QtWidgets.QStatusBar(MainWindow)
         self.statusbar.setObjectName("statusbar")
         MainWindow.setStatusBar(self.statusbar)
-        self.addObject.clicked.connect(self.handler_addObject)
-        self.deleteObject.clicked.connect(self.handler_deleteObject)
-        self.addSubject.clicked.connect(self.handler_addSubject)
-        self.deleteSubject.clicked.connect(self.handler_deleteSubject)
-        self.renameObjectbutton.clicked.connect(self.rename_Object)
-        self.renameSubjectbutton.clicked.connect(self.rename_Subject)
         self.grantAll.clicked.connect(self.grantAll_handler)
         self.removeAll.clicked.connect(self.removeAll_handler)
         self.removeBut.clicked.connect(self.remove_handler)
@@ -189,26 +127,6 @@ class Ui_MainWindow(object):
         self.config_table()
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
-
-    def rename_Subject(self):
-        oldname = self.subjectName.toPlainText()
-        newname = self.renameSubject.toPlainText()
-        self.subjectName.clear()
-        self.renameSubject.clear()
-        if newname.isnumeric():
-            with open(self.path, "r+") as m:
-                content = m.readline().split("|")
-                users = [i.split("_")[0] for i in content if i != content[0]]
-                print(users)
-                if newname not in users and oldname in users:
-                    content[users.index(oldname) + 1] = content[users.index(oldname) + 1].replace(oldname,newname)
-            print(f"rename_Subject: Writing {content} to file")
-            with open(self.path, "w+") as m:
-                content_towrite = "|".join(content)
-                print(f"rename_Subject: Writing {content_towrite} to file")
-                m.writelines(content_towrite)
-                m.close()
-        self.config_table()
 
     def create_handler(self):
         subject = self._3_2subjectName.toPlainText()
@@ -343,101 +261,6 @@ class Ui_MainWindow(object):
             m.close()
         self.config_table()
 
-    def rename_Object(self):
-        oldname = self.objectInput.toPlainText()
-        newname = self.renameObject.toPlainText()
-        self.objectInput.clear()
-        self.renameObject.clear()
-        if newname.isalpha() and len(newname) == 1:
-            with open(self.path, "r+") as m:
-                content = m.readline().split("|")
-                if oldname in content[0] and newname not in content[0]:
-                    content[0] = content[0].replace(oldname,newname)
-                    for i in range(len(content)):
-                        content[i] = content[i].replace(oldname,newname)
-                else:
-                    print(f"Some error during renaming")
-                m.close()
-            with open(self.path, "w+") as m:
-                content_towrite = "|".join(content)
-                print(f"rename_Object: Writing {content_towrite} to file")
-                m.writelines(content_towrite)
-            self.config_table()
-    def handler_addObject(self):
-        obj_name = self.objectInput.toPlainText()
-        self.objectInput.clear()
-        if(obj_name.isalpha() and len(obj_name)==1):
-            with open(self.path, "r+") as m:
-                content = m.readline().split("|")
-                if obj_name not in content[0]:
-                    content[0] = content[0] + obj_name
-                else:
-                    print(f"add_Object: {obj_name} already exists")
-                m.close()
-            with open(self.path, "w+") as m:
-                content_towrite = "|".join(content)
-                print(f"add_Object: Writing {content_towrite} to file")
-                m.writelines(content_towrite)
-        self.config_table()
-
-    def handler_deleteObject(self):
-        obj_name = self.objectInput.toPlainText()
-        self.objectInput.clear()
-        with open(self.path, "r+") as m:
-            content = m.readline().split("|")
-            if obj_name in content[0]:
-                content[0] = content[0].replace(obj_name, "")
-                for i in range(len(content)):
-                    content[i] = content[i].replace(obj_name,"")
-            m.close()
-        with open(self.path, "w+") as m:
-            content_towrite = "|".join(content)
-            print(f"add_Object: Writing {content_towrite} to file")
-            m.writelines(content_towrite)
-            m.close()
-        self.config_table()
-
-    def handler_addSubject(self):
-        sub_name = self.subjectName.toPlainText()
-        new_rights = self.subjectRights.toPlainText()
-        self.subjectName.clear()
-        self.subjectRights.clear()
-        if sub_name.isnumeric():
-            with open(self.path, "r+") as m:
-                content = m.readline().split("|")
-                users = [i.split("_")[0] for i in content if i != content[0]]
-                print(users)
-                if sub_name in users:
-                    content[users.index(sub_name) + 1] = sub_name + "_" + new_rights
-                else:
-                    content.append(sub_name + "_" + new_rights)
-            print(f"add_Subject: Writing {content} to file")
-            with open(self.path, "w+") as m:
-                content_towrite = "|".join(content)
-                print(f"add_Object: Writing {content_towrite} to file")
-                m.writelines(content_towrite)
-                m.close()
-        self.config_table()
-
-    def handler_deleteSubject(self):
-        sub_name = self.subjectName.toPlainText()
-        new_rights = self.subjectRights.toPlainText()
-        self.subjectName.clear()
-        self.subjectRights.clear()
-        with open(self.path, "r+") as m:
-            content = m.readline().split("|")
-            users = [i.split("_")[0] for i in content if i != content[0]]
-            if sub_name in users:
-                print(f"Удаляем {content[users.index(sub_name) + 1]}")
-                content.pop(users.index(sub_name) + 1)
-            else:
-                print(f"delete_Subject: User {sub_name} doesn't exist")
-        with open(self.path, "w+") as m:
-            content_towrite = "|".join(content)
-            print(f"delete_Subject: Writing {content} to file")
-            m.writelines(content_towrite)
-            m.close()
-        self.config_table()
 
     def config_table(self):
         with open(self.path, "r+") as m:
@@ -468,19 +291,6 @@ class Ui_MainWindow(object):
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
-        self.label_3.setText(_translate("MainWindow", "Имя объекта"))
-        self.addObject.setText(_translate("MainWindow", "Добавить"))
-        self.deleteObject.setText(_translate("MainWindow", "Удалить"))
-        self.label_4.setText(_translate("MainWindow", "Имя субъекта"))
-        self.label_5.setText(_translate("MainWindow", "Права субъекта"))
-        self.addSubject.setText(_translate("MainWindow", "Добавить / Изменить"))
-        self.deleteSubject.setText(_translate("MainWindow", "Удалить"))
-        self.label.setText(_translate("MainWindow", "Управление объектом"))
-        self.label_2.setText(_translate("MainWindow", "Управление субъектом"))
-        self.label_7.setText(_translate("MainWindow", "Переименовать объект"))
-        self.renameObjectbutton.setText(_translate("MainWindow", "Переименовать"))
-        self.renameSubjectbutton.setText(_translate("MainWindow", "Переименовать"))
-        self.label_8.setText(_translate("MainWindow", "Переименовать субъект"))
         self.label_6.setText(_translate("MainWindow", "Имена субъектов"))
         self.label_9.setText(_translate("MainWindow", "Права субъектов"))
         self.grantBut.setText(_translate("MainWindow", "Grant"))
